@@ -6,9 +6,9 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{549FB61C-978E-4773-BA8D-02A46A509333}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>BilibiliSubtitle2SRT</RootNamespace>
-    <AssemblyName>BilibiliSubtitle2SRT</AssemblyName>
-    <TargetFrameworkVersion>v5.0.4</TargetFrameworkVersion>
+    <RootNamespace>BilibiliSubtitle-To-SRT</RootNamespace>
+    <AssemblyName>BilibiliSubtitle-To-SRT</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -33,7 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>soso.ico</ApplicationIcon>
+    <ApplicationIcon>chiraitori.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
