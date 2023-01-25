@@ -2,35 +2,37 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-// 有关程序集的一般信息由以下
-// 控制。更改这些特性值可修改
-// 与程序集关联的信息。
-[assembly: AssemblyTitle("BilibiliSubtitle2SRT")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("BilibiliSubtitle2SRT")]
-[assembly: AssemblyCopyright("Copyright ©  2018")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
+// General information about assemblies is provided by the following
+// control. Changing the values of these properties modifies the
+// Information associated with the assembly.
 
-// 将 ComVisible 设置为 false 会使此程序集中的类型
-//对 COM 组件不可见。如果需要从 COM 访问此程序集中的类型
-//请将此类型的 ComVisible 特性设置为 true。
-[assembly: ComVisible(false)]
+[assembly: AssemblyTitle("BilibiliSubtitle-To-SRT")]
+[assembly: AssemblyDescription("Translete Bilibili Subtitle To SRT Subtitle")]
+[assembly: AssemblyConfiguration("Chiraitori")]
+[assembly: AssemblyCompany("Chiraitori Gaming")]
+[assembly: AssemblyProduct("BilibiliSubtitle-To-SRT")]
+[assembly: AssemblyCopyright("Copyright © 2023")]
+[assembly: AssemblyTrademark("Chiraitori subscriptions")]
+[assembly: AssemblyCulture("Chiraitori")]
 
-// 如果此项目向 COM 公开，则下列 GUID 用于类型库的 ID
+// Setting ComVisible to false makes types in this assembly
+// Not visible to COM components. If you need to access types in this assembly from COM
+// Please set the ComVisible attribute of this type to true.
+
+[assembly: ComVisible(true)]
+
+// If this item is disclosed to the com, the following Guid is used for the ID of the type library
 [assembly: Guid("549fb61c-978e-4773-ba8d-02a46a509333")]
 
-// 程序集的版本信息由下列四个值组成: 
+// The assembly's version information consists of the following four values:
 //
-//      主版本
-//      次版本
-//      生成号
-//      修订号
+// major version
+// minor version
+// generation number
+//      Amendment No
 //
-// 可以指定所有值，也可以使用以下所示的 "*" 预置版本号和修订号
-// 方法是按如下所示使用“*”: :
+// You can specify all values, or you can use "*" to preset version and revision numbers as shown below
+// The way is to use "*" as follows: :
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.0.1.0")]
-[assembly: AssemblyFileVersion("0.0.1.0")]
+[assembly: AssemblyVersion("1.1")]
+[assembly: AssemblyFileVersion("1.1")]

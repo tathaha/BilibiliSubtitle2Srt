@@ -9,7 +9,7 @@ namespace BilibiliSubtitle2SRT
     static class Program
     {
         /// <summary>
-        /// 应用程序的主入口点。
+        /// The main entry point for the application.
         /// </summary>
         [STAThread]
         static void Main()
