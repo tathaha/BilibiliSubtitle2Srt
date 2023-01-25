@@ -43,6 +43,7 @@ jobs:
         nuget-version: '4.x'
     - run: nuget restore BilibiliSubtitle2SRT.sln 
 
+    - run: dotnet restore BilibiliSubtitle2SRT.sln 
 
     # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
     - name: Setup MSBuild.exe
