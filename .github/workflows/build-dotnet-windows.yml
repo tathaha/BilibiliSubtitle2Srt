@@ -59,8 +59,7 @@ jobs:
       run: dotnet build BilibiliSubtitle2SRT/BilibiliSubtitle2SRT.csproj  --configuration Release --no-restore
    
     - name: Make Dir
-      run: |
-           ls bin
+      run: ls bin
   
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.1
