@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyProduct("BilibiliSubtitle-To-SRT")]
 [assembly: AssemblyCopyright("Copyright © 2023")]
 [assembly: AssemblyTrademark("Chiraitori subscriptions")]
-[assembly: AssemblyCulture("Chiraitori")]
+[assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes types in this assembly
 // Not visible to COM components. If you need to access types in this assembly from COM
