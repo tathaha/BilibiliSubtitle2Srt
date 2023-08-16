@@ -7,12 +7,12 @@ using System.Runtime.InteropServices;
 // Information associated with the assembly.
 
 [assembly: AssemblyTitle("BilibiliSubtitle-To-SRT")]
-[assembly: AssemblyDescription("Translete Bilibili Subtitle To SRT Subtitle")]
+[assembly: AssemblyDescription("Translate Bilibili Subtitle To SRT Subtitle")]
 [assembly: AssemblyConfiguration("Chiraitori")]
-[assembly: AssemblyCompany("Chiraitori Gaming")]
+[assembly: AssemblyCompany("Chiraitori")]
 [assembly: AssemblyProduct("BilibiliSubtitle-To-SRT")]
 [assembly: AssemblyCopyright("Copyright © 2023")]
-[assembly: AssemblyTrademark("Chiraitori subscriptions")]
+[assembly: AssemblyTrademark("Chiraitori®")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes types in this assembly
@@ -34,5 +34,5 @@ using System.Runtime.InteropServices;
 // You can specify all values, or you can use "*" to preset version and revision numbers as shown below
 // The way is to use "*" as follows: :
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.1")]
-[assembly: AssemblyFileVersion("1.1")]
+[assembly: AssemblyVersion("1.3")]
+[assembly: AssemblyFileVersion("1.3")]

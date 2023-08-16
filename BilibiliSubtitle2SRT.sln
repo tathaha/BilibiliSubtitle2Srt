@@ -1,9 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2048
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34003.232
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BilibiliSubtitle2SRT", "BilibiliSubtitle2SRT\BilibiliSubtitle2SRT.csproj", "{549FB61C-978E-4773-BA8D-02A46A509333}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{02F55FA0-2039-48EA-A580-BA4E66E97F30}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\info.ico = ..\..\..\info.ico
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

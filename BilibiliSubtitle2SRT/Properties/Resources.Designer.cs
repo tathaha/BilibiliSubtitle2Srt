@@ -8,6 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.Drawing;
+
 namespace BilibiliSubtitle2SRT.Properties
 {
 
@@ -33,6 +35,9 @@ namespace BilibiliSubtitle2SRT.Properties
         internal Resources()
         {
         }
+
+        public static Icon app_icon { get; internal set; }
+
 
         /// <summary>
         /// Returns the cached ResourceManager instance used by this class.

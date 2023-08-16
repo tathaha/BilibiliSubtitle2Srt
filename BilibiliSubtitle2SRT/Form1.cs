@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BilibiliSubtitle2SRT;
 
 namespace BilibiliSubtitle2SRT
 {
@@ -17,12 +18,43 @@ namespace BilibiliSubtitle2SRT
         string file_path = "";
         BiliSubStyle myBiliSubStyle = new BiliSubStyle();
         List<BiliSub> myBiliSub = new List<BiliSub>();
+
+        private Button btnDelete;
+        private Button btnImport;
+        private Button btnSave;
+        private Button btnInfo;
+
         public Form1()
         {
             InitializeComponent();
             this.AllowDrop = true;
             this.DragEnter += new DragEventHandler(Form1_DragEnter);
-            this.DragDrop += new DragEventHandler(Form1_DragDrop);            
+            this.DragDrop += new DragEventHandler(Form1_DragDrop);
+
+            
+            // Create and wire up the Save button and its event handler
+            btnSave = new Button();
+            btnSave.Text = "Save";
+            btnSave.Click += new EventHandler(saveButton_Click);
+            Controls.Add(btnSave);
+             
+            btnImport = new Button();
+            btnImport.Text = "Import";
+            btnImport.Click += new EventHandler(importButton_Click);
+            Controls.Add(btnImport);
+
+            btnInfo = new Button();
+            btnInfo.Text = "Info";
+            btnInfo.Click += new EventHandler(btnInfo_Click);
+            Controls.Add(btnInfo);
+
+            this.Resize += new EventHandler(Form1_Resize);
+
+            // Set initial positions for controls
+            Form1_Resize(this, EventArgs.Empty);
+
+            textBox1.DoubleClick += new EventHandler(textBox1_DoubleClick);
+            textBox2.DoubleClick += new EventHandler(textBox2_DoubleClick);
         }
         
         public class BiliSubStyle
@@ -64,6 +96,72 @@ namespace BilibiliSubtitle2SRT
          * 3，加入字幕文本内容
          * 4，如果并非最后一行，加入一个换行符
          */
+    
+
+        private void btnInfo_Click(object sender, EventArgs e)
+        {
+            InfoForm infoForm = new InfoForm();
+            infoForm.ShowDialog();
+        }
+        private void textBox1_DoubleClick(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "JSON Files (*.json)|*.json|All files (*.*)|*.*";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                file_path = openFileDialog.FileName;
+                this.Text = file_path;
+                string contents = File.ReadAllText(file_path);
+                string contents_temp = contents.Replace("},{", "\r\n").Replace(":[{", "\r\n");
+                textBox1.Text = contents_temp;
+                processBiliSub();
+                BiliSubToSrt();
+                myBiliSub.Clear();
+            }
+        }
+
+        private void importButton_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "JSON Files (*.json)|*.json|All files (*.*)|*.*";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                file_path = openFileDialog.FileName;
+                this.Text = file_path;
+                string contents = File.ReadAllText(file_path);
+                string contents_temp = contents.Replace("},{", "\r\n").Replace(":[{", "\r\n");
+                textBox1.Text = contents_temp;
+                processBiliSub();
+                BiliSubToSrt();
+                myBiliSub.Clear();
+            }
+        }
+        
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            if (btnSave != null)
+            {
+                // Position the Save button at the bottom-right corner of the form
+                btnSave.Location = new Point(ClientSize.Width - btnSave.Width - 10, ClientSize.Height - btnSave.Height - 10);
+            }
+            if (btnImport != null)
+            {
+                // Position the Save button at the bottom-right corner of the form
+                btnImport.Location = new Point(10, ClientSize.Height - btnImport.Height - 10);
+            }
+            if (btnInfo != null)
+            {
+                // Calculate the X coordinate to center the button
+                int centerX = ClientSize.Width / 2;
+                int buttonX = centerX - btnImport.Width / 2;
+
+                // Position the button at the bottom center of the form
+                btnInfo.Location = new Point(buttonX, ClientSize.Height - btnInfo.Height - 10);
+            }
+
+        }
 
         private void Form1_DragEnter(object sender, DragEventArgs e)
         {
@@ -85,6 +183,12 @@ namespace BilibiliSubtitle2SRT
             BiliSubToSrt();
             //this.Text = "finished";
             myBiliSub.Clear();
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            // Clear the text in the textBox2 control
+            textBox2.Text = string.Empty;
         }
 
         private string SecondToTime(string s)
@@ -134,12 +238,20 @@ namespace BilibiliSubtitle2SRT
                 }
             }
         }
+        
+        private void SaveSrtFile(string srtContent, string fileName)
+        {
+            using (StreamWriter writer = new StreamWriter(fileName, false, Encoding.UTF8))
+            {
+                writer.Write(srtContent);
+            }
+        }
 
         private void BiliSubToSrt()
         {
             int flag = 1;
             string temp = "";
-            foreach(var sub in myBiliSub)
+            foreach (var sub in myBiliSub)
             {
                 temp += flag.ToString() + "\r\n";
                 temp += SecondToTime(sub.from) + " --> " + SecondToTime(sub.to) + "\r\n";
@@ -148,5 +260,69 @@ namespace BilibiliSubtitle2SRT
             }
             textBox2.Text = temp;
         }
+
+       
+        private void textBox2_DoubleClick(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "SRT files (*.srt)|*.srt|All files (*.*)|*.*";
+
+            // Set the initial file name in the SaveFileDialog
+            if (!string.IsNullOrEmpty(file_path))
+            {
+                string originalFileName = Path.GetFileNameWithoutExtension(file_path);
+                string srtFileName = originalFileName + ".srt";
+                saveFileDialog.FileName = srtFileName;
+            }
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                SaveSrtFile(textBox2.Text, saveFileDialog.FileName);
+
+                // Display a message with the saved file name
+                string srtFileName = Path.GetFileName(saveFileDialog.FileName);
+                MessageBox.Show("File saved: " + srtFileName, "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                textBox1.Clear();
+                textBox2.Clear();
+
+                textBox1.Text = "Please Drag and Drop your Bilibili bcc or json file here, Double Click or Click Import to Import file.After that you can copy or click save to save the *.srt file you want.";
+            }
+        }
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "SRT files (*.srt)|*.srt|All files (*.*)|*.*";
+
+            // Set the initial file name in the SaveFileDialog
+            if (!string.IsNullOrEmpty(file_path))
+            {
+                string originalFileName = Path.GetFileNameWithoutExtension(file_path);
+                string srtFileName = originalFileName + ".srt";
+                saveFileDialog.FileName = srtFileName;
+            }
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                SaveSrtFile(textBox2.Text, saveFileDialog.FileName);
+
+                // Display a message with the saved file name
+                string srtFileName = Path.GetFileName(saveFileDialog.FileName);
+                MessageBox.Show("File saved: " + srtFileName, "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                textBox1.Clear();
+                textBox2.Clear();
+
+                textBox1.Text = "Please Drag and Drop your Bilibili bcc or json file here, Double Click or Click Import to Import file.After that you can copy or click save to save the *.srt file you want.";
+            }
+        }
+
+        // ... Rest of your class declarations ...
     }
 }
+
+
+
+
+
+
