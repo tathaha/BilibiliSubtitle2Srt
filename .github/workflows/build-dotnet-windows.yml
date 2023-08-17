@@ -54,7 +54,7 @@ jobs:
    
     # Execute all unit tests in the solution
     - name: Build
-      run: dotnet build BilibiliSubtitle2SRT/BilibiliSubtitle2SRT.csproj  --configuration Debug --no-restore -f dotnet461
+      run: dotnet build BilibiliSubtitle2SRT/BilibiliSubtitle2SRT.csproj  --configuration Debug --no-restore
 
     - name: Listing
       run: ls
