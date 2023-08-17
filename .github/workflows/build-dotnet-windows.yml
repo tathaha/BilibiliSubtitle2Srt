@@ -54,7 +54,7 @@ jobs:
    
     # Execute all unit tests in the solution
     - name: Build
-      run: dotnet build BilibiliSubtitle2SRT/BilibiliSubtitle2SRT.csproj  --configuration Debug --no-restore
+      run: dotnet build BilibiliSubtitle2SRT/BilibiliSubtitle2SRT.csproj  --configuration Release --no-restore
 
     - name: Listing
       run: ls
@@ -65,7 +65,7 @@ jobs:
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.1
       with:
-          name: 
+        
   
     - name: List dir
       run: pwd
