@@ -1,83 +1,57 @@
-name: .NET Core Desktop Windows Builder
+name: AssetStudioBuild
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ master ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ master ]
+
   workflow_dispatch:
 
 jobs:
-
   build:
-
-    strategy:
-      matrix:
-        configuration: [Release]
-
-    
-    runs-on: [windows-latest]  # For a list of available runner types, refer to                           
-     # https://help.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
-
-    env:
-      Solution_Name: BilibiliSubtitle2SRT.sln                                    # Replace with your solution name, i.e. MyWpfApp.sln.
-      Test_Project_Path:  BilibiliSubtitle2SRT/BilibiliSubtitle2SRT.csproj       # Replace with the path to your test project, i.e. MyWpfApp.Tests\MyWpfApp.Tests.csproj.
-      Wap_Project_Directory: BilibiliSubtitle2SRT/BilibiliSubtitle2SRT.csproj    # Replace with the Wap project directory relative to the solution, i.e. MyWpfApp.Package.
-      Wap_Project_Path: BilibiliSubtitle2SRT/BilibiliSubtitle2SRT.csproj         # Replace with the path to your Wap project, i.e. MyWpf.App.Package\MyWpfApp.Package.wapproj.
+    runs-on: windows-latest
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
+      - uses: actions/checkout@v2
+      - uses: microsoft/setup-msbuild@v1.1
+      
+      - name: Download FBX SDK
+        run: |
+          md fbx
+          cd fbx
+          Invoke-WebRequest "https://damassets.autodesk.net/content/dam/autodesk/www/adn/fbx/2020-2-1/fbx202021_fbxsdk_vs2019_win.exe" -OutFile "fbxsdk.exe"
+          Start-Process -FilePath "fbxsdk.exe" /S -Wait
+          Invoke-WebRequest "https://damassets.autodesk.net/content/dam/autodesk/www/adn/fbx/2020-2-1/fbx202021_fbxsdk_vs2019_pdbs.exe" -OutFile "fbxpdb.exe"
+          Start-Process -FilePath "fbxpdb.exe" /S -Wait
+          cd ..
 
-    
-    # Install the .NET Core workload
-    - name: Install .NET Core
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 7.0.x
+      - name: Nuget Restore
+        run: nuget restore
+      
+      - name: Build .Net472
+        run: msbuild /p:Configuration=Release /p:TargetFramework=net472 /verbosity:minimal
 
-    - uses: nuget/setup-nuget@v1
-      with:
-        nuget-api-key: ${{ secrets.NuGetAPIKey }}
-        nuget-version: '4.x'
-    - run: nuget restore BilibiliSubtitle2SRT.sln 
+      - name: Build .Net5
+        run: msbuild /t:AssetStudioGUI:publish /p:Configuration=Release /p:TargetFramework=net5.0-windows /p:SelfContained=false /verbosity:minimal
 
-    - run: dotnet restore BilibiliSubtitle2SRT.sln 
+      - name: Build .Net6
+        run: msbuild /t:AssetStudioGUI:publish /p:Configuration=Release /p:TargetFramework=net6.0-windows /p:SelfContained=false /verbosity:minimal
 
-    # Add  MSBuild to the PATH: https://github.com/microsoft/setup-msbuild
-    #- name: Setup MSBuild.exe
-     # uses: microsoft/setup-msbuild@v1.1.3
-      #with:
-       #  vs-prerelease: true
-   
-    # Execute all unit tests in the solution
-    - name: Build
-      run: dotnet build BilibiliSubtitle2SRT.sln  --configuration Release --no-restore
+      - name: Upload .Net472 Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: AssetStudio.net472
+          path: AssetStudioGUI/bin/Release/net472
 
-    - name: Listing
-      run: ls
-  
-    - name: listing binary
-      run: ls bin
-  
-    
-        
-  
-    - name: List dir
-      run: pwd
-    
-    - name: List File
-      run: ls
+      - name: Upload .Net5 Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: AssetStudio.net5
+          path: AssetStudioGUI/bin/Release/net5.0-windows/publish
 
-    - name: Upload release asset
-      uses: "marvinpinto/action-automatic-releases@latest"
-      with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "${{ secrets.VERSION_WIN }}"
-          prerelease: false
-          title: "Release Build"
-          files: |
-                *.zip
-                LICENSE
+      - name: Upload .Net6 Artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: AssetStudio.net6
+          path: AssetStudioGUI/bin/Release/net6.0-windows/publish
