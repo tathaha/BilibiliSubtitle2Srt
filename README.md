@@ -1,4 +1,4 @@
-# Bilibili cc subtitle to Srt Conventor
+# Bilibili cc subtitle to Srt Converter
 ## Discription
 Convert Bilibili cc bcc or json subtitle to Srt.
 
