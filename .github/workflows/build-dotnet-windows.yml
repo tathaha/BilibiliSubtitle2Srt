@@ -19,11 +19,11 @@ jobs:
       - name: Nuget Restore
         run: nuget restore
       
-      - name: Build .Net472
+      - name: Build
         run: msbuild /p:Configuration=Release /p:TargetFramework=net472 /verbosity:minimal
 
-      - name: Upload .Net472 Artifact
+      - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: AssetStudio.net472
+          name: BilibiliSubtitle2SRT
           path: BilibiliSubtitle2SRT\bin\Release\
