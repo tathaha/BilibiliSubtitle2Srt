@@ -27,3 +27,12 @@ jobs:
         with:
           name: BilibiliSubtitle2SRT
           path: BilibiliSubtitle2SRT\bin\Release\
+
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Release"
+          files: |
+            *.exe
